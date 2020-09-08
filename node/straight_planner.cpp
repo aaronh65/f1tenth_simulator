@@ -21,16 +21,20 @@ private:
     ros::NodeHandle n;
 
     // car parameters
-    double max_speed, max_steering_angle;
+    double max_speed, max_steering_angle, min_safe_distance;
 
     // Listen for odom messages
     ros::Subscriber odom_sub;
+	ros::Subscriber scan_sub;
 
     // Publish drive data
     ros::Publisher drive_pub;
 
     // previous desired steering angle
     double prev_angle=0.0;
+
+	// basic collision safety
+	bool too_close=false; 
 
 
 public:
@@ -39,19 +43,23 @@ public:
         n = ros::NodeHandle("~");
 
         // get topic names
-        std::string drive_topic, odom_topic;
+        std::string drive_topic, odom_topic, scan_topic;
         n.getParam("straight_drive_topic", drive_topic);
         n.getParam("odom_topic", odom_topic);
+		n.getParam("scan_topic", scan_topic);
 
         // get car parameters
         n.getParam("max_speed", max_speed);
         n.getParam("max_steering_angle", max_steering_angle);
+		n.getParam("min_safe_distance", min_safe_distance);
+		ROS_INFO_STREAM("got min safe distance " << min_safe_distance);
 
         // Make a publisher for drive messages
         drive_pub = n.advertise<ackermann_msgs::AckermannDriveStamped>(drive_topic, 10);
 
         // Start a subscriber to listen to odom messages
         odom_sub = n.subscribe(odom_topic, 1, &StraightPlanner::odom_callback, this);
+		scan_sub = n.subscribe(scan_topic, 1, &StraightPlanner::scan_callback, this);
 
 
     }
@@ -66,7 +74,11 @@ public:
 
         /// SPEED CALCULATION:
         // set constant speed to be half of max speed
-        drive_msg.speed = max_speed / 2.0;
+		if (too_close) {
+			drive_msg.speed = 0;
+		} else {
+        	drive_msg.speed = max_speed / 2.0;
+		}
 	
         // set angle (add random change to previous angle)
         drive_msg.steering_angle = 0;
@@ -82,6 +94,29 @@ public:
 
 
     }
+
+	void scan_callback(const sensor_msgs::LaserScan& msg) {
+		double min = std::numeric_limits<double>::max();
+		for (double range : msg.ranges) {
+			if (range < min && range < msg.range_max && range > msg.range_min) {
+				min = range;
+			}
+		}
+		if (min == std::numeric_limits<double>::max()) {
+			ROS_WARN("no valid ranges in laser scan");
+			return;
+		}
+			
+		ROS_INFO_STREAM("min range " << min);
+
+		if (min < min_safe_distance) {
+			too_close = true;
+			ROS_INFO("too close");
+		} else {
+			too_close = false;
+		}
+	}
+
 
 }; // end of class definition
 

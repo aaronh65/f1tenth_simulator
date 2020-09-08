@@ -91,6 +91,9 @@ keyboard_steer_ang: .3  # radians
 # obstacle parameters
 obstacle_size: 2
 
+# safety parameters
+min_safe_distance: 0.5
+
 # The names of topics to listen and publish to
 joy_topic: "/joy"
 drive_topic: "/drive"
@@ -110,7 +113,7 @@ mux_topic: "/mux"
 rand_drive_topic: "/rand_drive"
 brake_drive_topic: "/brake"
 nav_drive_topic: "/nav"
-straight_drive_topic: "/straight"
+straight_drive_topic: "/straight_drive"
 # **Add name for new planning method here**
 new_drive_topic: "/new_drive"
 
@@ -124,3 +127,6 @@ scan_frame: "laser"
 
 broadcast_transform: true
 publish_ground_truth_pose: true
+
+
+# safety
