@@ -114,12 +114,12 @@ public:
 		double threshold = std::max(min_safe_distance, std::min(max_safe_distance, curr_speed/2.0)); 
 		if (min_front_scan < threshold) {
 			if (!too_close) {
-				ROS_INFO("too close");
+				//ROS_INFO("too close");
 			}
 			too_close = true;
 		} else {
 			if (too_close) {
-				ROS_INFO("back to safety");
+				//ROS_INFO("back to safety");
 			}
 			too_close = false;
 		}

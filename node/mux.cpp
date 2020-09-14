@@ -135,6 +135,7 @@ public:
 		std::string pursuit_drive_topic;
 		n.getParam("pursuit_drive_topic", pursuit_drive_topic);
 		n.getParam("pursuit_mux_idx", pursuit_mux_idx);
+		add_channel(pursuit_drive_topic, drive_topic, pursuit_mux_idx);
 		 
         // ***Add a channel for a new planner here**
         // int new_mux_idx;

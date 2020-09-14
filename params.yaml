@@ -47,7 +47,7 @@ map_free_threshold: 0.8
 ttc_threshold: 0.01
 
 # Indices for mux controller
-mux_size: 6
+mux_size: 7
 joy_mux_idx: 0
 key_mux_idx: 1
 random_walker_mux_idx: 2
@@ -134,5 +134,7 @@ scan_frame: "laser"
 broadcast_transform: true
 publish_ground_truth_pose: true
 
-
+# pure pursuit parameters
+goal_threshold: 0.3
+pursuit_speed: 2
 # safety
