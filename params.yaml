@@ -54,6 +54,7 @@ random_walker_mux_idx: 2
 brake_mux_idx: 3
 nav_mux_idx: 4
 straight_mux_idx: 5
+pursuit_mux_idx: 6
 # **Add index for new planning method here**
 # **(increase mux_size accordingly)**
 new_method_mux_idx: -1
@@ -71,6 +72,7 @@ brake_button_idx: 0 # A button
 random_walk_button_idx: 1 # ? button
 nav_button_idx: 5 # RB button
 straight_button_idx: 7
+pursuit_button_idx: 8
 # **Add button for new planning method here**
 new_button_idx: -1
 
@@ -79,9 +81,10 @@ joy_key_char: "j"
 keyboard_key_char: "k"
 brake_key_char: "b"
 random_walk_key_char: "r"
-straight_planner_key_char: "p"
 nav_key_char: "n"
 # **Add button for new planning method here**
+straight_planner_key_char: "s"
+pursuit_key_char: "p"
 new_key_char: "z"
 
 # Keyboard driving params
@@ -92,7 +95,8 @@ keyboard_steer_ang: .3  # radians
 obstacle_size: 2
 
 # safety parameters
-min_safe_distance: 0.5
+min_safe_distance: .3
+max_safe_distance: .6
 
 # The names of topics to listen and publish to
 joy_topic: "/joy"
@@ -108,12 +112,14 @@ pose_rviz_topic: "/initialpose"
 keyboard_topic: "/key"
 brake_bool_topic: "/brake_bool"
 mux_topic: "/mux"
+goal_topic: "/move_base_simple/goal"
 
 # Topic names of various drive channels
 rand_drive_topic: "/rand_drive"
 brake_drive_topic: "/brake"
 nav_drive_topic: "/nav"
 straight_drive_topic: "/straight_drive"
+pursuit_drive_topic: "/pure_pursuit_drive"
 # **Add name for new planning method here**
 new_drive_topic: "/new_drive"
 

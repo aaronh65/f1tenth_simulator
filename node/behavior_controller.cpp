@@ -39,6 +39,7 @@ private:
     int nav_mux_idx;
     int brake_mux_idx;
 	int straight_mux_idx;
+	int pursuit_mux_idx;
     // ***Add mux index for new planner here***
     // int new_mux_idx;
 
@@ -53,6 +54,7 @@ private:
     int brake_button_idx;
     int nav_button_idx;
 	int straight_button_idx;
+	int pursuit_button_idx;
     // ***Add button index for new planner here***
     // int new_button_idx;
 
@@ -63,6 +65,7 @@ private:
     std::string random_walk_key_char;
     std::string nav_key_char;
 	std::string straight_key_char;
+	std::string pursuit_key_char;
     // ***Add key char for new planner here***
     // int new_key_char;
 
@@ -121,6 +124,7 @@ public:
         n.getParam("brake_mux_idx", brake_mux_idx);
         n.getParam("nav_mux_idx", nav_mux_idx);
 		n.getParam("straight_mux_idx", straight_mux_idx);
+		n.getParam("pursuit_mux_idx", pursuit_mux_idx);
         // ***Add mux index for new planner here***
         // n.getParam("new_mux_idx", new_mux_idx);
 
@@ -131,6 +135,7 @@ public:
         n.getParam("brake_button_idx", brake_button_idx);
         n.getParam("nav_button_idx", nav_button_idx);
 		n.getParam("straight_button_idx", straight_button_idx);
+		n.getParam("pursuit_button_idx", pursuit_button_idx);
         // ***Add button index for new planner here***
         // n.getParam("new_button_idx", new_button_idx);
 
@@ -141,6 +146,7 @@ public:
         n.getParam("brake_key_char", brake_key_char);
         n.getParam("nav_key_char", nav_key_char);
 		n.getParam("straight_planner_key_char", straight_key_char);
+		n.getParam("pursuit_key_char", pursuit_key_char);
         // ***Add key char for new planner here***
         // n.getParam("new_key_char", new_key_char);
 
@@ -320,6 +326,9 @@ public:
         } else if (msg.buttons[straight_button_idx]) {
 			//straight
 			toggle_mux(straight_mux_idx, "Straight");
+		} else if (msg.buttons[pursuit_button_idx]) {
+			//pure pursuit
+			toggle_mux(pursuit_mux_idx, "Pure Pursuit");
 		}
         // ***Add new else if statement here for new planning method***
         // if (msg.buttons[new_button_idx]) {
@@ -355,6 +364,8 @@ public:
             toggle_mux(nav_mux_idx, "Navigation");
         } else if (msg.data == straight_key_char) {
 			toggle_mux(straight_mux_idx, "Straight Planner");
+		} else if (msg.data == pursuit_key_char) { 
+			toggle_mux(pursuit_mux_idx, "Pure Pursuit");
 		}
 
         // ***Add new else if statement here for new planning method***

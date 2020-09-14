@@ -129,6 +129,12 @@ public:
 		n.getParam("straight_drive_topic", straight_drive_topic);
 		n.getParam("straight_mux_idx", straight_mux_idx);
 		add_channel(straight_drive_topic, drive_topic, straight_mux_idx);
+
+		// pure pursuit
+		int pursuit_mux_idx;
+		std::string pursuit_drive_topic;
+		n.getParam("pursuit_drive_topic", pursuit_drive_topic);
+		n.getParam("pursuit_mux_idx", pursuit_mux_idx);
 		 
         // ***Add a channel for a new planner here**
         // int new_mux_idx;

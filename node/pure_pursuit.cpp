@@ -8,6 +8,7 @@
 // Subscribe to a topic with this message type
 #include <nav_msgs/Odometry.h>
 #include <sensor_msgs/LaserScan.h>
+#include <geometry_msgs/PoseStamped.h>
 
 // for printing
 #include <iostream>
@@ -15,7 +16,8 @@
 // for RAND_MAX
 #include <cstdlib>
 
-class StraightPlanner {
+class PurePursuit {
+
 private:
     // A ROS node
     ros::NodeHandle n;
@@ -29,6 +31,7 @@ private:
     // Listen for odom messages
     ros::Subscriber odom_sub;
 	ros::Subscriber scan_sub;
+	ros::Subscriber goal_sub;
 
     // Publish drive data
     ros::Publisher drive_pub;
@@ -39,17 +42,21 @@ private:
 	// basic collision safety
 	bool too_close=false; 
 
+	// goal
+	geometry_msgs::Pose goal;
+
 
 public:
-    StraightPlanner() {
+    PurePursuit() {
         // Initialize the node handle
         n = ros::NodeHandle("~");
 
         // get topic names
-        std::string drive_topic, odom_topic, scan_topic;
-        n.getParam("straight_drive_topic", drive_topic);
+        std::string drive_topic, odom_topic, scan_topic, goal_topic;
+        n.getParam("pursuit_drive_topic", drive_topic);
         n.getParam("odom_topic", odom_topic);
 		n.getParam("scan_topic", scan_topic);
+		n.getParam("goal_topic", goal_topic);
 
         // get car parameters
         n.getParam("max_speed", max_speed);
@@ -62,11 +69,12 @@ public:
         drive_pub = n.advertise<ackermann_msgs::AckermannDriveStamped>(drive_topic, 10);
 
         // Start a subscriber to listen to odom messages
-        odom_sub = n.subscribe(odom_topic, 1, &StraightPlanner::odom_callback, this);
-		scan_sub = n.subscribe(scan_topic, 1, &StraightPlanner::scan_callback, this);
-
+        odom_sub = n.subscribe(odom_topic, 1, &PurePursuit::odom_callback, this);
+		scan_sub = n.subscribe(scan_topic, 1, &PurePursuit::scan_callback, this);
+		goal_sub = n.subscribe(goal_topic, 1, &PurePursuit::goal_callback, this);
 
     }
+
 
     void odom_callback(const nav_msgs::Odometry & msg) {
         // publishing is done in odom callback just so it's at the same rate as the sim
@@ -98,6 +106,16 @@ public:
 
 
     }
+
+
+	void goal_callback(const geometry_msgs::PoseStamped pose_stamped) {
+		goal = pose_stamped.pose;
+		ROS_INFO_STREAM("new goal specified at " << 
+				goal.position.x << ", " << 
+				goal.position.y);
+	}
+	
+
 	void scan_callback(const sensor_msgs::LaserScan& msg) {
 		double min_front_scan = std::numeric_limits<double>::max();
 		for (double range : msg.ranges) {
@@ -129,8 +147,8 @@ public:
 
 
 int main(int argc, char ** argv) {
-    ros::init(argc, argv, "straight_planner");
-    StraightPlanner sp;
+    ros::init(argc, argv, "pure_pursuit");
+    PurePursuit sp;
     ros::spin();
     return 0;
 }
