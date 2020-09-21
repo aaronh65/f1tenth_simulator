@@ -1,3 +1,9 @@
+# TODO
+
+- [ ] set up safety controller
+	- change mux to publish to a different topic
+	- safety controller subs to this topic and pubs to /drive
+
 # F1TENTH Racecar Simulator
 
 This is a lightweight 2D simulator of the UPenn F1TENTH Racecar.
