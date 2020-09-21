@@ -2,6 +2,10 @@
 
 #include <f1tenth_simulator/rrt_star.h>
 
+/////////////////
+// constructor //
+/////////////////
+
 RRTstar::RRTstar(ros::NodeHandle &nh): nh_(nh){
         // Initialize the node handle
 	buf = ros::Duration(0.01);
@@ -28,6 +32,9 @@ RRTstar::RRTstar(ros::NodeHandle &nh): nh_(nh){
 
 }
 
+RRTstar::~RRTstar() {
+	ROS_INFO("RRTstar shutting down");
+}
 
 ///////////////
 // callbacks //
@@ -50,6 +57,9 @@ void RRTstar::goal_callback(const geometry_msgs::PoseStamped & pose_stamped) {
 	// start RRT
 }
 
+/////////////////
+// RRT methods //
+/////////////////
 
 /////////////////
 // main method //

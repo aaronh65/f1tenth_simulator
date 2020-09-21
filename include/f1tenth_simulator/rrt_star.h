@@ -11,8 +11,8 @@
 
 #include <tf/transform_listener.h>
 #include <iostream>
-
-
+#include <math.h>
+#include <random>
 
 typedef struct Node {
 	double x, y;
@@ -25,7 +25,7 @@ typedef struct Node {
 class RRTstar {
 public:
 	RRTstar(ros::NodeHandle &nh);
-	//virtual ~RRT();
+	virtual ~RRTstar();
 	void odom_callback(const nav_msgs::Odometry & msg);
 	void goal_callback(const geometry_msgs::PoseStamped & pose_stamped);
 
@@ -62,6 +62,9 @@ private:
 	// transforms
 	tf::TransformListener listener;
 
+	std::mt19937 gen;
+	std::uniform_real_distribution<> x_dist;
+	std::uniform_real_distribution<> y_dist;
 
 };
 
