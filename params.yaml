@@ -47,7 +47,7 @@ map_free_threshold: 0.8
 ttc_threshold: 0.01
 
 # Indices for mux controller
-mux_size: 7
+mux_size: 8
 joy_mux_idx: 0
 key_mux_idx: 1
 random_walker_mux_idx: 2
@@ -55,6 +55,7 @@ brake_mux_idx: 3
 nav_mux_idx: 4
 straight_mux_idx: 5
 pursuit_mux_idx: 6
+rrt_star_mux_idx: 7
 # **Add index for new planning method here**
 # **(increase mux_size accordingly)**
 new_method_mux_idx: -1
@@ -73,6 +74,7 @@ random_walk_button_idx: 1 # ? button
 nav_button_idx: 5 # RB button
 straight_button_idx: 7
 pursuit_button_idx: 8
+rrt_star_button_idx: 9
 # **Add button for new planning method here**
 new_button_idx: -1
 
@@ -80,12 +82,13 @@ new_button_idx: -1
 joy_key_char: "j"
 keyboard_key_char: "k"
 brake_key_char: "b"
-random_walk_key_char: "r"
+random_walk_key_char: "z"
 nav_key_char: "n"
 # **Add button for new planning method here**
 straight_planner_key_char: "s"
 pursuit_key_char: "p"
-new_key_char: "z"
+rrt_star_key_char: "r"
+new_key_char: "~"
 
 # Keyboard driving params
 keyboard_speed: 1.8  # meters/second
@@ -120,6 +123,7 @@ brake_drive_topic: "/brake"
 nav_drive_topic: "/nav"
 straight_drive_topic: "/straight_drive"
 pursuit_drive_topic: "/pure_pursuit_drive"
+rrt_star_drive_topic: "/rrt_star_drive"
 # **Add name for new planning method here**
 new_drive_topic: "/new_drive"
 

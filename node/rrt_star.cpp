@@ -77,8 +77,8 @@ public:
         drive_pub = n.advertise<ackermann_msgs::AckermannDriveStamped>(drive_topic, 10);
 
         // Start a subscriber to listen to odom messages
-        odom_sub = n.subscribe(odom_topic, 1, &PurePursuit::odom_callback, this);
-		goal_sub = n.subscribe(goal_topic, 1, &PurePursuit::goal_callback, this);
+        odom_sub = n.subscribe(odom_topic, 1, &RRTstar::odom_callback, this);
+		goal_sub = n.subscribe(goal_topic, 1, &RRTstar::goal_callback, this);
 
     }
 
@@ -123,6 +123,7 @@ public:
         // publish stamped drive message
         drive_st_msg.drive = drive_msg;
         drive_pub.publish(drive_st_msg);
+
     }
 
 
