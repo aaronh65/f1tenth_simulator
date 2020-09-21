@@ -142,3 +142,9 @@ publish_ground_truth_pose: true
 goal_threshold: 0.3
 pursuit_speed: 2
 # safety
+
+# rrt star
+steer_distance: 1 # what are the units?
+goal_sample_rate: 0.2
+max_iterations: 10000
+
