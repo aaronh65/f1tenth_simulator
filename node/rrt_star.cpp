@@ -55,6 +55,9 @@ void RRTstar::goal_callback(const geometry_msgs::PoseStamped & pose_stamped) {
 	open_goal = true;		
 
 	// start RRT
+	// end RRT, get std::vector<Node> path
+	// follow_trajectory(path)
+	// open_goal = false;
 }
 
 /////////////////
